@@ -125,10 +125,9 @@ jobs:
           command: |
             sh pluginade.sh build
             sh pluginade.sh zip
-            mkdir /tmp/artifacts
-            mv pattern-manager*.zip /tmp/artifacts
+            mv pattern-manager*.zip /home/circleci/Downloads
       - store_artifacts:
-          path: /tmp/artifacts
+          path: /home/circleci/Downloads
 
 workflows:
   build:
