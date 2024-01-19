@@ -1,0 +1,110 @@
+name: Test and Build
+
+on: [push]
+
+jobs:
+  lint-php:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          path: plugins/sample-plugin
+
+      - name: Installing Pluginade
+        working-directory: plugins/sample-plugin
+        run: sh pluginade.sh install
+
+      - name: Linting PHP
+        working-directory: plugins/sample-plugin
+        run: sh pluginade.sh lint:php
+
+  lint-js:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          path: plugins/sample-plugin
+
+      - name: Installing Pluginade
+        working-directory: plugins/sample-plugin
+        run: sh pluginade.sh install
+
+      - name: Linting JS
+        working-directory: plugins/sample-plugin
+        run: sh pluginade.sh lint:js
+
+  lint-css:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          path: plugins/sample-plugin
+
+      - name: Installing Pluginade
+        working-directory: plugins/sample-plugin
+        run: sh pluginade.sh install
+
+      - name: Linting CSS
+        working-directory: plugins/sample-plugin
+        run: sh pluginade.sh lint:css
+
+  test-js:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          path: plugins/sample-plugin
+
+      - name: Installing Pluginade
+        working-directory: plugins/sample-plugin
+        run: sh pluginade.sh install
+
+      - name: Testing JS
+        working-directory: plugins/sample-plugin
+        run: sh pluginade.sh test:js
+
+  phpunit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          path: plugins/sample-plugin
+
+      - name: Installing Pluginade
+        working-directory: plugins/sample-plugin
+        run: sh pluginade.sh install
+
+      - name: PHPUnit Integration Tests
+        working-directory: plugins/sample-plugin
+        run: |
+          sh pluginade.sh build
+          sh pluginade.sh test:phpunit
+
+  zip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          path: plugins/sample-plugin
+
+      - name: Installing Pluginade
+        working-directory: plugins/sample-plugin
+        run: sh pluginade.sh install
+
+      - name: Creating the zip file
+        working-directory: plugins/sample-plugin
+        run: |
+          sh pluginade.sh build
+          sh pluginade.sh zip
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: pluginade-artifacts
+          path: /home/runner/work/your-repo-name/your-repo-name/plugins/sample-plugin

@@ -4,7 +4,7 @@ You can use Pluginade Scripts as part of your CI/CD on platforms like CircleCI a
 If you have ideas for improvements, please open an issue or a pull request!
 
 ### Github Actions Example
-Coming Soon
+[.github/workflows/test-and-build.yml](https://raw.githubusercontent.com/pluginade/cicd-examples/main/github-actions-examples/.github/workflows/test-and-build.yml)
 
 ### CircleCI Example
-[.circleci/config.yml](https://raw.githubusercontent.com/pluginade/cicd-examples/main/.circleci/config.yml)
+[.circleci/config.yml](https://raw.githubusercontent.com/pluginade/cicd-examples/main/circleci-examples/.circleci/config.yml)
