@@ -1,0 +1,141 @@
+version: 2.1
+
+references:
+  PLUGIN_PATH: &PLUGIN_PATH
+    plugins/your-plugin-slug
+
+jobs:
+  lint-php:
+    machine:
+      image: ubuntu-2004:current
+    steps:
+      - checkout:
+          path: *PLUGIN_PATH
+      - run:
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+      - run:
+          name: Installing Pluginade
+          working_directory: *PLUGIN_PATH
+          command: sh pluginade.sh install
+      - run:
+          name: Linting PHP
+          working_directory: *PLUGIN_PATH
+          command: sh pluginade.sh lint:php
+  lint-js:
+    machine:
+      image: ubuntu-2004:current
+    steps:
+      - checkout:
+          path: *PLUGIN_PATH
+      - run:
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+      - run:
+          name: Installing Pluginade
+          working_directory: *PLUGIN_PATH
+          command: sh pluginade.sh install
+      - run:
+          name: Linting JS
+          working_directory: *PLUGIN_PATH
+          command: |
+            sh pluginade.sh lint:js
+  lint-css:
+    machine:
+      image: ubuntu-2004:current
+    steps:
+      - checkout:
+          path: *PLUGIN_PATH
+      - run:
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+      - run:
+          name: Installing Pluginade
+          working_directory: *PLUGIN_PATH
+          command: sh pluginade.sh install
+      - run:
+          name: Linting CSS
+          working_directory: *PLUGIN_PATH
+          command: |
+            sh pluginade.sh lint:css
+  test-js:
+    machine:
+      image: ubuntu-2004:current
+    steps:
+      - checkout:
+          path: *PLUGIN_PATH
+      - run:
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+      - run:
+          name: Installing Pluginade
+          working_directory: *PLUGIN_PATH
+          command: sh pluginade.sh install
+      - run:
+          name: Testing JS
+          working_directory: *PLUGIN_PATH
+          command: sh pluginade.sh test:js
+  phpunit:
+    machine:
+      image: ubuntu-2004:current
+    steps:
+      - checkout:
+          path: *PLUGIN_PATH
+      - run:
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+      - run:
+          name: Installing Pluginade
+          working_directory: *PLUGIN_PATH
+          command: sh pluginade.sh install
+      - run:
+          name: PHPUnit Integration Tests
+          working_directory: *PLUGIN_PATH
+          command: |
+            sh pluginade.sh build
+            sh pluginade.sh test:phpunit
+  zip:
+    machine:
+      image: ubuntu-2004:current
+    steps:
+      - checkout:
+          path: *PLUGIN_PATH
+      - run:
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+      - run:
+          name: Installing Pluginade
+          working_directory: *PLUGIN_PATH
+          command: sh pluginade.sh install
+      - run:
+          name: Creating the zip file
+          working_directory: *PLUGIN_PATH
+          command: |
+            sh pluginade.sh build
+            sh pluginade.sh zip
+            mkdir /tmp/artifacts
+            mv pattern-manager*.zip /tmp/artifacts
+      - store_artifacts:
+          path: /tmp/artifacts
+
+workflows:
+  build:
+    jobs:
+      - lint-php
+      - lint-js
+      - lint-css
+      - test-js
+      - phpunit
+      - zip
